@@ -1,0 +1,228 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1775295732573,
+  "projectRoot": "/Users/shingo/Documents/GitHub/nanoclaw",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": ">=20",
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "vitest",
+        "version": "4.0.18",
+        "category": "testing"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": "Node.js 20"
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": "npm test",
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "build": "tsc",
+      "start": "node dist/index.js",
+      "dev": "tsx src/index.ts",
+      "typecheck": "tsc --noEmit",
+      "format": "prettier --write \"src/**/*.ts\"",
+      "format:fix": "prettier --write \"src/**/*.ts\"",
+      "format:check": "prettier --check \"src/**/*.ts\"",
+      "prepare": "husky",
+      "setup": "tsx setup/index.ts",
+      "auth": "tsx src/whatsapp-auth.ts",
+      "lint": "eslint src/",
+      "lint:fix": "eslint src/ --fix",
+      "test": "vitest run",
+      "test:watch": "vitest"
+    }
+  },
+  "conventions": {
+    "namingStyle": "camelCase",
+    "importStyle": "ES modules",
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "assets",
+      "docs",
+      "scripts",
+      "src"
+    ],
+    "gitBranches": {
+      "defaultBranch": "main",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "assets": {
+      "path": "assets",
+      "purpose": "Static assets",
+      "fileCount": 7,
+      "lastAccessed": 1775295732546,
+      "keyFiles": [
+        "nanoclaw-favicon.png",
+        "nanoclaw-icon.png",
+        "nanoclaw-logo-dark.png",
+        "nanoclaw-logo.png",
+        "nanoclaw-profile.jpeg"
+      ]
+    },
+    "config-examples": {
+      "path": "config-examples",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775295732551,
+      "keyFiles": [
+        "mount-allowlist.json"
+      ]
+    },
+    "container": {
+      "path": "container",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1775295732552,
+      "keyFiles": [
+        "Dockerfile",
+        "build.sh"
+      ]
+    },
+    "data": {
+      "path": "data",
+      "purpose": "Data files",
+      "fileCount": 0,
+      "lastAccessed": 1775295732553,
+      "keyFiles": []
+    },
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 124,
+      "lastAccessed": 1775295732554,
+      "keyFiles": [
+        "claw-skill.test.d.ts",
+        "claw-skill.test.d.ts.map",
+        "claw-skill.test.js",
+        "claw-skill.test.js.map",
+        "config.d.ts"
+      ]
+    },
+    "docs": {
+      "path": "docs",
+      "purpose": "Documentation",
+      "fileCount": 9,
+      "lastAccessed": 1775295732555,
+      "keyFiles": [
+        "APPLE-CONTAINER-NETWORKING.md",
+        "DEBUG_CHECKLIST.md",
+        "README.md",
+        "REQUIREMENTS.md",
+        "SDK_DEEP_DIVE.md"
+      ]
+    },
+    "groups": {
+      "path": "groups",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1775295732555,
+      "keyFiles": []
+    },
+    "launchd": {
+      "path": "launchd",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775295732556,
+      "keyFiles": [
+        "com.nanoclaw.plist"
+      ]
+    },
+    "repo-tokens": {
+      "path": "repo-tokens",
+      "purpose": null,
+      "fileCount": 3,
+      "lastAccessed": 1775295732556,
+      "keyFiles": [
+        "README.md",
+        "action.yml",
+        "badge.svg"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 1,
+      "lastAccessed": 1775295732557,
+      "keyFiles": [
+        "run-migrations.ts"
+      ]
+    },
+    "setup": {
+      "path": "setup",
+      "purpose": null,
+      "fileCount": 15,
+      "lastAccessed": 1775295732557,
+      "keyFiles": [
+        "container.ts",
+        "environment.test.ts",
+        "environment.ts",
+        "groups.ts",
+        "index.ts"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 31,
+      "lastAccessed": 1775295732558,
+      "keyFiles": [
+        "claw-skill.test.ts",
+        "config.ts",
+        "container-runner.test.ts",
+        "container-runner.ts",
+        "container-runtime.test.ts"
+      ]
+    },
+    "store": {
+      "path": "store",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1775295732558,
+      "keyFiles": [
+        "messages.db"
+      ]
+    },
+    "repo-tokens/examples": {
+      "path": "repo-tokens/examples",
+      "purpose": "Example code",
+      "fileCount": 4,
+      "lastAccessed": 1775295732561,
+      "keyFiles": [
+        "green.svg",
+        "red.svg",
+        "yellow-green.svg"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}
