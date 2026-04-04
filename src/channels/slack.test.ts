@@ -560,7 +560,7 @@ describe('SlackChannel', () => {
   // --- sendMessage ---
 
   describe('sendMessage', () => {
-    it('sends message via Slack client', async () => {
+    it('sends message via Slack client with Block Kit', async () => {
       const opts = createTestOpts();
       const channel = new SlackChannel(opts);
       await channel.connect();
@@ -570,6 +570,7 @@ describe('SlackChannel', () => {
       expect(currentApp().client.chat.postMessage).toHaveBeenCalledWith({
         channel: 'C0123456789',
         text: 'Hello',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Hello' } }],
       });
     });
 
@@ -583,6 +584,7 @@ describe('SlackChannel', () => {
       expect(currentApp().client.chat.postMessage).toHaveBeenCalledWith({
         channel: 'D9876543210',
         text: 'DM message',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'DM message' } }],
       });
     });
 
@@ -611,43 +613,41 @@ describe('SlackChannel', () => {
       ).resolves.toBeUndefined();
     });
 
-    it('splits long messages at 4000 character boundary', async () => {
+    it('splits long text into multiple blocks at 3000 char boundary', async () => {
       const opts = createTestOpts();
       const channel = new SlackChannel(opts);
       await channel.connect();
 
-      // Create a message longer than 4000 chars
+      // Create a message longer than 3000 chars
       const longText = 'A'.repeat(4500);
       await channel.sendMessage('slack:C0123456789', longText);
 
-      // Should be split into 2 messages: 4000 + 500
-      expect(currentApp().client.chat.postMessage).toHaveBeenCalledTimes(2);
-      expect(currentApp().client.chat.postMessage).toHaveBeenNthCalledWith(1, {
-        channel: 'C0123456789',
-        text: 'A'.repeat(4000),
-      });
-      expect(currentApp().client.chat.postMessage).toHaveBeenNthCalledWith(2, {
-        channel: 'C0123456789',
-        text: 'A'.repeat(500),
-      });
+      // Should be 1 API call with 2 blocks (3000 + 1500)
+      expect(currentApp().client.chat.postMessage).toHaveBeenCalledTimes(1);
+      const call = currentApp().client.chat.postMessage.mock.calls[0][0];
+      expect(call.blocks).toHaveLength(2);
+      expect(call.blocks[0].text.type).toBe('mrkdwn');
+      expect(call.blocks[1].text.type).toBe('mrkdwn');
     });
 
-    it('sends exactly-4000-char messages as a single message', async () => {
+    it('sends exactly-3000-char messages as a single block', async () => {
       const opts = createTestOpts();
       const channel = new SlackChannel(opts);
       await channel.connect();
 
-      const text = 'B'.repeat(4000);
+      const text = 'B'.repeat(3000);
       await channel.sendMessage('slack:C0123456789', text);
 
       expect(currentApp().client.chat.postMessage).toHaveBeenCalledTimes(1);
-      expect(currentApp().client.chat.postMessage).toHaveBeenCalledWith({
-        channel: 'C0123456789',
-        text,
+      const call = currentApp().client.chat.postMessage.mock.calls[0][0];
+      expect(call.blocks).toHaveLength(1);
+      expect(call.blocks[0]).toEqual({
+        type: 'section',
+        text: { type: 'mrkdwn', text },
       });
     });
 
-    it('splits messages into 3 parts when over 8000 chars', async () => {
+    it('splits messages into 3 blocks when over 6000 chars', async () => {
       const opts = createTestOpts();
       const channel = new SlackChannel(opts);
       await channel.connect();
@@ -655,8 +655,10 @@ describe('SlackChannel', () => {
       const longText = 'C'.repeat(8500);
       await channel.sendMessage('slack:C0123456789', longText);
 
-      // 4000 + 4000 + 500 = 3 messages
-      expect(currentApp().client.chat.postMessage).toHaveBeenCalledTimes(3);
+      expect(currentApp().client.chat.postMessage).toHaveBeenCalledTimes(1);
+      const call = currentApp().client.chat.postMessage.mock.calls[0][0];
+      // 3000 + 3000 + 2500 = 3 blocks
+      expect(call.blocks).toHaveLength(3);
     });
 
     it('flushes queued messages on connect', async () => {
@@ -675,10 +677,12 @@ describe('SlackChannel', () => {
       expect(currentApp().client.chat.postMessage).toHaveBeenCalledWith({
         channel: 'C0123456789',
         text: 'First queued',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'First queued' } }],
       });
       expect(currentApp().client.chat.postMessage).toHaveBeenCalledWith({
         channel: 'C0123456789',
         text: 'Second queued',
+        blocks: [{ type: 'section', text: { type: 'mrkdwn', text: 'Second queued' } }],
       });
     });
   });
